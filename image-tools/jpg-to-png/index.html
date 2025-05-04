@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Tools</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+    <!-- HTML -->
+<header class="header">
+    <a href="/" class="header__logo">Zelipho</a>
+    <nav class="header__nav" id="main-nav">
+      <button class="header__close-btn" aria-label="Close menu">&times;</button>
+      <a href="#" class="header__link">Home</a>
+      <a href="#" class="header__link">About</a>
+      <a href="#" class="header__link">Services</a>
+      <a href="#" class="header__link">Contact</a>
+    </nav>
+    <button class="header__menu-btn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+      </svg>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero-section section-common">
+        <div class="container">
+            <h1>Hub of free tools</h1>
+            <p>Discover a range of simple, efficient, and free tools designed to make your work easier.</p>
+        </div>
+    </section>
+    
+    <section id="converter" class="tool-section section-common">
+        <input type="file" id="upload" accept="image/jpeg" multiple hidden>
+        <button class="upload-btn" onclick="document.getElementById('upload').click()">Upload JPGs</button>
+        <p id="progressText" class="progress-count"></p>
+        <p id="processingNote" class="processing-note" style="display: none;"></p>
+
+        <div class="progress-wrapper" style="display: none;">
+            <div id="progressBar" class="progress-bar"></div>
+          </div>
+          
+        <div id="preview" class="preview-grid"></div>
+
+        <div class="actions" style="display: none;">
+          <button id="downloadAll" class="download-all-btn">Download All</button>
+          <button id="clearAll" class="clear-btn">Clear</button>
+        </div>
+        <p class="error-message" id="errorMessage"></p>
+      </section>
+
+      <section class="why-choose section-common">
+        <div class="container">
+            <h2>Why Choose Our Tools</h2>
+            <p>We provide high-quality, easy-to-use, and free tools that help you achieve more daily</p>
+             <div class="row-4">
+                <div class="col why-choose-cards">
+                    <h3>User Friendly</h3>
+                    <p>Our tools are designed for simplicity, ensuring everyone can use them without hassle.</p>
+                </div>
+                <div class="col why-choose-cards">
+                    <h3>Completely Free</h3>
+                    <p>All tools are available at zero cost, making professional work accessible to everyone.</p>
+                </div>
+                <div class="col why-choose-cards">
+                    <h3>Reliable Performance</h3>
+                    <p>Experience fast, reliable, and accurate results whenever you use any of our tools.</p>
+                </div>
+                <div class="col why-choose-cards">
+                    <h3>Reliable Performance</h3>
+                    <p>Experience fast, reliable, and accurate results whenever you use any of our tools.</p>
+                </div>
+             </div>
+        </div>
+
+      </section>
+
+      <section class="faq  section-common">
+        <div class="container">
+            <h2>Frequently Asked Questions</h2>
+            <p>We provide high-quality, easy-to-use, and free tools that help you achieve more daily</p>
+            <div class="row">
+                <div class="col">
+                    <h3>What is this tool for? </h3>
+                    <p>This tool converts JPG/JPEG images into PNG format in bulk for free.</p>
+                </div>
+                <div class="col">
+                    <h3>Is there any file size limit?</h3>
+                    <p>Yes, each file should be less than 50MB to ensure smooth processing.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h3>What is this tool for?</h3>
+                    <p>This tool converts JPG/JPEG images into PNG format in bulk for free.</p>
+                </div>
+                <div class="col">
+                    <h3>Is there any file size limit?</h3>
+                    <p>Yes, each file should be less than 50MB to ensure smooth processing.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h3>What is this tool for?</h3>
+                    <p>This tool converts JPG/JPEG images into PNG format in bulk for free.</p>
+                </div>
+                <div class="col">
+                    <h3>Is there any file size limit?</h3>
+                    <p>Yes, each file should be less than 50MB to ensure smooth processing.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h3>What is this tool for?</h3>
+                    <p>This tool converts JPG/JPEG images into PNG format in bulk for free.</p>
+                </div>
+                <div class="col">
+                    <h3>Is there any file size limit?</h3>
+                    <p>Yes, each file should be less than 50MB to ensure smooth processing.</p>
+                </div>
+            </div>
+        </div>
+      </section>
+
+  </main>
+
+  <script src="normal.js"></script>
+  <script src="../../scripts/image-tools-script/jpgtopng.js" defer></script>
+</body>
+</html>
