@@ -1,0 +1,299 @@
+$primary-color: #067d41;
+$text-color: black;
+$bg-color:   linear-gradient(to bottom, rgb(244, 255, 250), rgb(220, 255, 238));
+
+$font-15: 15px;
+$font-16: 16px;
+$font-20: 20px;
+$font-25: 25px;
+$font-30: 30px;
+$size-h1: 2.4rem;
+
+$para-font: 0.8rem;
+
+$font-bold: bold;
+$font-nomral:400;
+$font-light:300;
+$font-medium:500;
+
+$contianer-padding: 2rem 1rem;
+
+$box-shadow:  rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+
+@mixin flex-row($row-value){
+    display: flex;
+    justify-content: $row-value;
+    align-items: center;
+}
+@mixin flex-column($column-value){
+    display: flex;
+    flex-direction: column;
+    justify-content: $column-value;
+    align-items: center;
+}
+
+
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body{
+  background:  linear-gradient(to bottom, rgb(246, 255, 251), rgb(230, 255, 243));
+}
+
+.header {
+ @include flex-row(space-between);
+    padding: 1rem 2rem;
+    // background: white;
+    position: relative;
+    
+    &__logo {
+      font-size: 1.5rem;
+      font-weight: $font-nomral;
+      text-decoration: none;
+      color: $primary-color;
+    }
+  
+    &__nav {
+      display: flex;
+      gap: 2rem;
+      transition: transform 0.3s ease;
+  
+      @media (max-width: 768px) {
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+        width: 70%;
+        max-width: 300px;
+        flex-direction: column;
+        padding: 2rem;
+        transform: translateX(100%);
+        box-shadow: -2px 0 8px rgba(0,0,0,0.1);
+        z-index: 100;
+  
+        &.active {
+          transform: translateX(0);
+        }
+      }
+    }
+  
+    &__link {
+      text-decoration: none;
+      color: $primary-color;
+      transition: color 0.3s ease;
+      font-size: $font-15;
+      font-weight: $font-light;
+    }
+  
+    &__menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      color: #333;
+  
+      @media (max-width: 768px) {
+        display: block;
+      }
+    }
+  
+    &__close-btn {
+      display: none;
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #666;
+  
+      @media (max-width: 768px) {
+        display: block;
+      }
+    }
+  }
+
+// -------------------------------------------------------
+
+ h1,h2,h3,h4,h5{
+    color: $primary-color;
+    font-weight: $font-light;
+    text-align: center;
+ }
+ p{
+    color: $text-color;
+    font-size: $para-font;
+    font-weight: $font-light;
+    text-align: center;
+ }
+
+ h1{
+    font-size: $size-h1;
+ }
+
+ h2{
+    font-size: 1.6rem;
+ }
+ h3{
+    font-size: 1rem;
+ }
+
+.container{
+    padding: $contianer-padding;
+}
+.section-common{
+    @include flex-column(center);
+    padding: 10px 20px;
+}
+
+.upload-btn,.download-btn,.download-all-btn,.clear-btn{
+    background: $primary-color;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+}
+.download-all-btn,.clear-btn{
+    margin: 0.5rem 0.4rem;
+}
+.progress-count{
+    margin: 0.4rem 0;
+}
+
+.progress-wrapper {
+    width: 100%;
+    height: 10px;
+    background: #eee;
+    margin: 1rem 0;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: green;
+    transition: width 0.3s ease;
+  }
+  .error-message{
+    color: rgb(203, 0, 0);
+  }
+
+// -------------------------------------------------------
+
+.tool-section{
+    padding: 0 6rem 1rem 6rem;
+}
+.preview-grid{
+    margin: 5px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 15px;
+   
+    .image-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: $box-shadow;
+        @include flex-column(center);
+        text-align: center;
+        overflow: hidden;
+        animation: fadeIn 0.5s ease forwards;
+        img {
+          width: 100%;
+          height: 150px;
+          object-fit: contain;
+          border-top-left-radius: 10px;
+          border-top-right-radius: 10px;
+            background: rgb(255, 255, 255);
+        //   border-radius: $radius;
+        }
+        .download-btn{
+            width: 100%;
+            padding: 0.4rem;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            svg{
+                width: 20px;
+                height: 20px;
+            }
+        }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+.row-4{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    margin: 1.2rem 0;
+    gap: 15px;
+    justify-items: center;
+    align-items: center;
+    // padding: 0 1rem;
+
+    @media only screen and (max-width: 992px) {
+        grid-template-columns: repeat(2,1fr);
+    }
+    @media only screen and (max-width: 576px) {
+        grid-template-columns: repeat(1,1fr);
+    }
+}
+
+.why-choose{
+    background: rgb(255, 255, 255);
+    &-cards{
+        background: white;
+        padding: 30px 15px;
+        border-radius: 5px;
+        box-shadow: $box-shadow;
+        p{
+            font-size:  0.75rem;
+            font-weight: 300;
+            letter-spacing: 0.2px;
+            line-height: 1.1rem;
+            margin-top: 0.4rem;
+        }
+    }
+}
+
+.row{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 1.2rem 0;
+    gap: 15px;
+    @media only screen and (max-width: 576px) {
+        grid-template-columns: repeat(1,1fr);
+    }
+}
+.faq{
+    background:  linear-gradient(to bottom, rgb(246, 255, 251), rgb(230, 255, 243));
+    .row{
+    h3{
+        text-align: start;
+        font-size: 1rem;
+    }
+    p{
+        text-align: start;
+    }
+}
+}
+
+
+  
