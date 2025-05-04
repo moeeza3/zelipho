@@ -39,7 +39,7 @@
         <input type="file" id="upload" accept="image/jpeg" multiple hidden>
         <button class="upload-btn" onclick="document.getElementById('upload').click()">Upload JPGs</button>
         <p id="progressText" class="progress-count"></p>
-        <p id="processingNote" class="processing-note" style="display: none;">Processing large image(s), please wait...</p>
+        <p id="processingNote" class="processing-note" style="display: none;"></p>
 
         <div class="progress-wrapper" style="display: none;">
             <div id="progressBar" class="progress-bar"></div>
@@ -130,6 +130,6 @@
   </main>
 
   <script src="normal.js"></script>
-  <script src="conversion.js"></script>
+  <script src="conversion.js" defer></script>
 </body>
 </html>

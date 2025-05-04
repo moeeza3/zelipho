@@ -11,7 +11,7 @@ const processingNote = document.getElementById("processingNote");
 
 let convertedImages = [];
 
-// Convert JPG to PNG
+// Convert a JPG image to PNG using canvas
 function convertToPng(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -31,7 +31,7 @@ function convertToPng(file) {
       canvas.toBlob(
         (blob) => {
           const url = URL.createObjectURL(blob);
-          const name = file.name.replace(/\.jpe?g$/i, ".png").replace(/\.jpg$/i, ".png");
+          const name = file.name.replace(/\.jpe?g$/i, ".png");
           resolve({ blob, url, name });
         },
         "image/png",
@@ -44,7 +44,7 @@ function convertToPng(file) {
   });
 }
 
-// Batch Processor
+// Convert images in batches (custom concurrency)
 async function processInBatches(files, maxConcurrent = 1) {
   const queue = [...files];
   let inProgress = 0;
@@ -52,7 +52,9 @@ async function processInBatches(files, maxConcurrent = 1) {
 
   return new Promise((resolve) => {
     const next = () => {
-      if (queue.length === 0 && inProgress === 0) return resolve();
+      if (queue.length === 0 && inProgress === 0) {
+        return resolve();
+      }
 
       while (inProgress < maxConcurrent && queue.length > 0) {
         const file = queue.shift();
@@ -62,7 +64,6 @@ async function processInBatches(files, maxConcurrent = 1) {
           progressWrapper.style.display = "none";
           actions.style.display = "none";
           progressText.textContent = "";
-          processingNote.style.display = "none";
           continue;
         }
 
@@ -76,9 +77,7 @@ async function processInBatches(files, maxConcurrent = 1) {
           card.innerHTML = `
             <img src="${url}" alt="preview" />
             <button class="download-btn" onclick="downloadImage('${url}', '${name}')">
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#f0efef">
-                <path d="M8 11L12 15M12 15L16 11M12 15V3M21 11V17.7992C21 18.9193 21 19.4794 20.782 19.9072C20.5903 20.2835 20.2843 20.5895 19.908 20.7812C19.4802 20.9992 18.9201 20.9992 17.8 20.9992H6.2C5.0799 20.9992 4.51984 20.9992 4.09202 20.7812C3.71569 20.5895 3.40973 20.2835 3.21799 19.9072C3 19.4794 3 18.9193 3 17.7992V11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#f0efef"><path d="M8 11L12 15M12 15L16 11M12 15V3M21 11V17.8C21 18.9 21 19.5 20.8 19.9C20.6 20.3 20.3 20.6 19.9 20.8C19.5 21 18.9 21 17.8 21H6.2C5.1 21 4.5 21 4.1 20.8C3.7 20.6 3.4 20.3 3.2 19.9C3 19.5 3 18.9 3 17.8V11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
           `;
           previewGrid.appendChild(card);
@@ -86,7 +85,6 @@ async function processInBatches(files, maxConcurrent = 1) {
           completed++;
           progressText.textContent = `${completed}/${files.length} done`;
           progressBar.style.width = `${(completed / files.length) * 100}%`;
-
         }).catch(console.error).finally(() => {
           inProgress--;
           next();
@@ -98,7 +96,7 @@ async function processInBatches(files, maxConcurrent = 1) {
   });
 }
 
-// Upload Handler
+// Upload handler
 uploadInput.addEventListener("change", async (e) => {
   const files = Array.from(e.target.files);
   errorMessage.textContent = "";
@@ -112,10 +110,17 @@ uploadInput.addEventListener("change", async (e) => {
   downloadAllBtn.disabled = true;
   clearAllBtn.disabled = true;
 
-  // Show processing message
+  // Show general processing message
   processingNote.style.display = "block";
+  processingNote.textContent = "Processing, please wait...";
 
-  // Detect device
+  // Extra note for large images (>2MB)
+  const hasLargeImage = files.some(file => file.size > 2 * 1024 * 1024);
+  if (hasLargeImage) {
+    processingNote.textContent += " Large image(s) detected, this may take a while...";
+  }
+
+  // Set concurrency
   const isMobileOrTablet = /Mobi|Android|iPad|iPhone/i.test(navigator.userAgent);
   const concurrency = isMobileOrTablet ? 1 : 2;
 
@@ -129,7 +134,7 @@ uploadInput.addEventListener("change", async (e) => {
   clearAllBtn.disabled = false;
 });
 
-// Download one image
+// Download single image
 function downloadImage(url, name) {
   const a = document.createElement("a");
   a.href = url;
@@ -139,7 +144,7 @@ function downloadImage(url, name) {
   document.body.removeChild(a);
 }
 
-// Download all as ZIP
+// Download all as zip
 downloadAllBtn.addEventListener("click", async () => {
   if (convertedImages.length === 0) return;
   const zip = new JSZip();
@@ -164,7 +169,7 @@ clearAllBtn.addEventListener("click", () => {
   errorMessage.textContent = "";
   progressBar.style.width = "0%";
   progressWrapper.style.display = "none";
-  processingNote.style.display = "none";
   actions.style.display = "none";
   progressText.textContent = "";
+  processingNote.style.display = "none";
 });
