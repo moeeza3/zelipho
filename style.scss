@@ -5,18 +5,19 @@ $bg-color:   linear-gradient(to bottom, rgb(244, 255, 250), rgb(220, 255, 238));
 $font-15: 15px;
 $font-16: 16px;
 $font-20: 20px;
-$font-25: 25px;
-$font-30: 30px;
-$size-h1: 2.4rem;
+$size-h1: 2.6rem;
+$size-h2: 2rem;
+$size-h3: 1.2rem;
 
-$para-font: 0.8rem;
+$para-font: 1rem;
+$para-font-2: 0.9rem;
 
 $font-bold: bold;
 $font-nomral:400;
 $font-light:300;
 $font-medium:500;
 
-$contianer-padding: 2rem 1rem;
+$container-padding: 2rem 1rem;
 
 $box-shadow:  rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 
@@ -141,14 +142,14 @@ body{
  }
 
  h2{
-    font-size: 1.6rem;
+    font-size: $size-h2;
  }
  h3{
-    font-size: 1rem;
+    font-size: $size-h3;
  }
 
 .container{
-    padding: $contianer-padding;
+    padding: $container-padding;
 }
 .section-common{
     @include flex-column(center);
@@ -158,9 +159,10 @@ body{
 .upload-btn,.download-btn,.download-all-btn,.clear-btn{
     background: $primary-color;
     color: white;
-    padding: 10px 20px;
+    padding: 1rem 2rem;
     border: none;
     border-radius: 5px;
+    font-size: $para-font;
 }
 .download-all-btn,.clear-btn{
     margin: 0.5rem 0.4rem;
@@ -171,7 +173,7 @@ body{
 
 .progress-wrapper {
     width: 100%;
-    height: 10px;
+    height: 1rem;
     background: #eee;
     margin: 1rem 0;
     border-radius: 5px;
@@ -180,7 +182,7 @@ body{
   .progress-bar {
     height: 100%;
     width: 0%;
-    background: green;
+    background: $primary-color;
     transition: width 0.3s ease;
   }
   .error-message{
@@ -191,13 +193,30 @@ body{
 
 .tool-section{
     padding: 0 6rem 1rem 6rem;
+    @media only screen and (max-width: 992px) {
+      padding: 0 2rem 1rem 2rem;
+  }
+  @media only screen and (max-width: 576px) {
+    padding: 0 1rem 1rem 1rem;
+  }
 }
 .preview-grid{
     margin: 5px 0;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(5,1fr);
     gap: 15px;
-   
+    @media only screen and (max-width: 992px) {
+      grid-template-columns: repeat(4,1fr);
+  }
+  @media only screen and (max-width: 768px) {
+    grid-template-columns: repeat(3,1fr);
+}
+  @media only screen and (max-width: 576px) {
+      grid-template-columns: repeat(2,1fr);
+  }
+  @media only screen and (max-width: 400px) {
+    grid-template-columns: repeat(1,1fr);
+}
     .image-card {
         background: white;
         border-radius: 10px;
@@ -221,8 +240,8 @@ body{
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             svg{
-                width: 20px;
-                height: 20px;
+                width: 25px;
+                height: 25px;
             }
         }
     }
@@ -246,7 +265,6 @@ body{
     gap: 15px;
     justify-items: center;
     align-items: center;
-    // padding: 0 1rem;
 
     @media only screen and (max-width: 992px) {
         grid-template-columns: repeat(2,1fr);
@@ -260,12 +278,12 @@ body{
     background: rgb(255, 255, 255);
     &-cards{
         background: white;
-        padding: 30px 15px;
+        padding: 40px 20px;
         border-radius: 5px;
         box-shadow: $box-shadow;
         p{
-            font-size:  0.75rem;
-            font-weight: 300;
+            font-size:  $para-font-2;
+            font-weight: $font-light;
             letter-spacing: 0.2px;
             line-height: 1.1rem;
             margin-top: 0.4rem;
@@ -276,10 +294,16 @@ body{
 .row{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin: 1.2rem 0;
+    margin: 1.5rem 0;
+    justify-items: start;
+    align-items: start;
+    width: 100%;
     gap: 15px;
     @media only screen and (max-width: 576px) {
         grid-template-columns: repeat(1,1fr);
+    }
+    .col{
+      width: 100%;
     }
 }
 .faq{
@@ -287,7 +311,6 @@ body{
     .row{
     h3{
         text-align: start;
-        font-size: 1rem;
     }
     p{
         text-align: start;

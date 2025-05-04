@@ -91,21 +91,21 @@ h1, h2, h3, h4, h5 {
 
 p {
   color: black;
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 300;
   text-align: center;
 }
 
 h1 {
-  font-size: 2.4rem;
+  font-size: 2.6rem;
 }
 
 h2 {
-  font-size: 1.6rem;
+  font-size: 2rem;
 }
 
 h3 {
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .container {
@@ -123,9 +123,10 @@ h3 {
 .upload-btn, .download-btn, .download-all-btn, .clear-btn {
   background: #067d41;
   color: white;
-  padding: 10px 20px;
+  padding: 1rem 2rem;
   border: none;
   border-radius: 5px;
+  font-size: 1rem;
 }
 
 .download-all-btn, .clear-btn {
@@ -138,7 +139,7 @@ h3 {
 
 .progress-wrapper {
   width: 100%;
-  height: 10px;
+  height: 1rem;
   background: #eee;
   margin: 1rem 0;
   border-radius: 5px;
@@ -148,7 +149,7 @@ h3 {
 .progress-bar {
   height: 100%;
   width: 0%;
-  background: green;
+  background: #067d41;
   transition: width 0.3s ease;
 }
 
@@ -159,12 +160,42 @@ h3 {
 .tool-section {
   padding: 0 6rem 1rem 6rem;
 }
+@media only screen and (max-width: 992px) {
+  .tool-section {
+    padding: 0 2rem 1rem 2rem;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .tool-section {
+    padding: 0 1rem 1rem 1rem;
+  }
+}
 
 .preview-grid {
   margin: 5px 0;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(5, 1fr);
   gap: 15px;
+}
+@media only screen and (max-width: 992px) {
+  .preview-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media only screen and (max-width: 768px) {
+  .preview-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media only screen and (max-width: 576px) {
+  .preview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media only screen and (max-width: 400px) {
+  .preview-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 .preview-grid .image-card {
   background: white;
@@ -194,8 +225,8 @@ h3 {
   border-bottom-right-radius: 10px;
 }
 .preview-grid .image-card .download-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
 }
 
 @keyframes fadeIn {
@@ -232,12 +263,12 @@ h3 {
 }
 .why-choose-cards {
   background: white;
-  padding: 30px 15px;
+  padding: 40px 20px;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 }
 .why-choose-cards p {
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   font-weight: 300;
   letter-spacing: 0.2px;
   line-height: 1.1rem;
@@ -247,7 +278,10 @@ h3 {
 .row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin: 1.2rem 0;
+  margin: 1.5rem 0;
+  justify-items: start;
+  align-items: start;
+  width: 100%;
   gap: 15px;
 }
 @media only screen and (max-width: 576px) {
@@ -255,13 +289,15 @@ h3 {
     grid-template-columns: repeat(1, 1fr);
   }
 }
+.row .col {
+  width: 100%;
+}
 
 .faq {
   background: linear-gradient(to bottom, rgb(246, 255, 251), rgb(230, 255, 243));
 }
 .faq .row h3 {
   text-align: start;
-  font-size: 1rem;
 }
 .faq .row p {
   text-align: start;
