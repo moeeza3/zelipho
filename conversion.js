@@ -7,10 +7,11 @@ const progressBar = document.getElementById("progressBar");
 const progressWrapper = document.querySelector(".progress-wrapper");
 const actions = document.querySelector(".actions");
 const progressText = document.getElementById("progressText");
+const processingNote = document.getElementById("processingNote");
 
 let convertedImages = [];
 
-// Convert a JPG image to PNG using canvas
+// Convert JPG to PNG
 function convertToPng(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -43,7 +44,7 @@ function convertToPng(file) {
   });
 }
 
-// Convert images in batches (max 3 at a time)
+// Batch Processor
 async function processInBatches(files, maxConcurrent = 1) {
   const queue = [...files];
   let inProgress = 0;
@@ -51,18 +52,17 @@ async function processInBatches(files, maxConcurrent = 1) {
 
   return new Promise((resolve) => {
     const next = () => {
-      if (queue.length === 0 && inProgress === 0) {
-        return resolve(); // All done
-      }
+      if (queue.length === 0 && inProgress === 0) return resolve();
 
       while (inProgress < maxConcurrent && queue.length > 0) {
         const file = queue.shift();
 
         if (!file.type.includes("jpeg") && !file.name.toLowerCase().endsWith(".jpg")) {
-          errorMessage.textContent = "Only JPG  files are allowed.";
+          errorMessage.textContent = "Only JPG files are allowed.";
           progressWrapper.style.display = "none";
-         actions.style.display = "none";
-         progressText.textContent = "";
+          actions.style.display = "none";
+          progressText.textContent = "";
+          processingNote.style.display = "none";
           continue;
         }
 
@@ -76,14 +76,15 @@ async function processInBatches(files, maxConcurrent = 1) {
           card.innerHTML = `
             <img src="${url}" alt="preview" />
             <button class="download-btn" onclick="downloadImage('${url}', '${name}')">
-                                   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#f0efef"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8 11L12 15M12 15L16 11M12 15V3M21 11V17.7992C21 18.9193 21 19.4794 20.782 19.9072C20.5903 20.2835 20.2843 20.5895 19.908 20.7812C19.4802 20.9992 18.9201 20.9992 17.8 20.9992H6.2C5.0799 20.9992 4.51984 20.9992 4.09202 20.7812C3.71569 20.5895 3.40973 20.2835 3.21799 19.9072C3 19.4794 3 18.9193 3 17.7992V11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#f0efef">
+                <path d="M8 11L12 15M12 15L16 11M12 15V3M21 11V17.7992C21 18.9193 21 19.4794 20.782 19.9072C20.5903 20.2835 20.2843 20.5895 19.908 20.7812C19.4802 20.9992 18.9201 20.9992 17.8 20.9992H6.2C5.0799 20.9992 4.51984 20.9992 4.09202 20.7812C3.71569 20.5895 3.40973 20.2835 3.21799 19.9072C3 19.4794 3 18.9193 3 17.7992V11" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </button>
           `;
           previewGrid.appendChild(card);
 
           completed++;
           progressText.textContent = `${completed}/${files.length} done`;
-
           progressBar.style.width = `${(completed / files.length) * 100}%`;
 
         }).catch(console.error).finally(() => {
@@ -97,7 +98,7 @@ async function processInBatches(files, maxConcurrent = 1) {
   });
 }
 
-// Upload handler
+// Upload Handler
 uploadInput.addEventListener("change", async (e) => {
   const files = Array.from(e.target.files);
   errorMessage.textContent = "";
@@ -106,22 +107,29 @@ uploadInput.addEventListener("change", async (e) => {
   progressBar.style.width = "0%";
   progressText.textContent = `0/${files.length} done`;
 
-  // Show progress bar, hide buttons
   progressWrapper.style.display = "block";
   actions.style.display = "none";
   downloadAllBtn.disabled = true;
   clearAllBtn.disabled = true;
 
-  await processInBatches(files, 3); // max 3 at once
+  // Show processing message
+  processingNote.style.display = "block";
 
-  // Done - hide progress bar, show buttons
+  // Detect device
+  const isMobileOrTablet = /Mobi|Android|iPad|iPhone/i.test(navigator.userAgent);
+  const concurrency = isMobileOrTablet ? 1 : 2;
+
+  await processInBatches(files, concurrency);
+
+  // Done
   progressWrapper.style.display = "none";
+  processingNote.style.display = "none";
   actions.style.display = "flex";
   downloadAllBtn.disabled = false;
   clearAllBtn.disabled = false;
 });
 
-// Download single image
+// Download one image
 function downloadImage(url, name) {
   const a = document.createElement("a");
   a.href = url;
@@ -131,7 +139,7 @@ function downloadImage(url, name) {
   document.body.removeChild(a);
 }
 
-// Download all as zip
+// Download all as ZIP
 downloadAllBtn.addEventListener("click", async () => {
   if (convertedImages.length === 0) return;
   const zip = new JSZip();
@@ -156,6 +164,7 @@ clearAllBtn.addEventListener("click", () => {
   errorMessage.textContent = "";
   progressBar.style.width = "0%";
   progressWrapper.style.display = "none";
+  processingNote.style.display = "none";
   actions.style.display = "none";
   progressText.textContent = "";
 });
