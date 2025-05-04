@@ -44,7 +44,7 @@ function convertToPng(file) {
 }
 
 // Convert images in batches (max 3 at a time)
-async function processInBatches(files, maxConcurrent = 2) {
+async function processInBatches(files, maxConcurrent = 1) {
   const queue = [...files];
   let inProgress = 0;
   let completed = 0;
