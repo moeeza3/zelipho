@@ -11,7 +11,7 @@ const processingNote = document.getElementById("processingNote");
 
 let convertedImages = [];
 
-function convertTiffToJpg(file) {
+function convertTiffToPng(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -31,21 +31,10 @@ function convertTiffToJpg(file) {
         canvas.width = ifds[0].width;
         canvas.height = ifds[0].height;
         const ctx = canvas.getContext("2d");
-
-        // Create temporary canvas to handle transparency
-        const tempCanvas = document.createElement("canvas");
-        tempCanvas.width = canvas.width;
-        tempCanvas.height = canvas.height;
-        const tempCtx = tempCanvas.getContext("2d");
         
-        const imageData = tempCtx.createImageData(canvas.width, canvas.height);
+        const imageData = ctx.createImageData(canvas.width, canvas.height);
         imageData.data.set(rgba);
-        tempCtx.putImageData(imageData, 0, 0);
-
-        // Draw on main canvas with white background
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(tempCanvas, 0, 0);
+        ctx.putImageData(imageData, 0, 0);
 
         canvas.toBlob(
           blob => {
@@ -54,11 +43,10 @@ function convertTiffToJpg(file) {
               return;
             }
             const url = URL.createObjectURL(blob);
-            const name = file.name.replace(/\.tiff?$/i, ".jpg");
+            const name = file.name.replace(/\.tiff?$/i, ".png");
             resolve({ blob, url, name });
           },
-          "image/jpeg",
-          0.92
+          "image/png" // Changed MIME type
         );
       } catch (error) {
         reject(error);
@@ -98,7 +86,7 @@ async function processInBatches(files, maxConcurrent = 1) {
       const batch = queue.splice(0, maxConcurrent);
       await Promise.allSettled(batch.map(async (file) => {
         try {
-          const result = await convertTiffToJpg(file);
+          const result = await convertTiffToPng(file); // Changed function name
           convertedImages.push(result);
 
           const card = document.createElement("div");
